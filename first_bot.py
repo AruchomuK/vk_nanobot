@@ -1,3 +1,4 @@
+import requests
 import vk_api
 import random
 from config import *
@@ -24,10 +25,11 @@ print("Готов к работе")
 
 while True:
     long_poll = requests.get(
-        'https://{srver}?act={act}&key={key}&ts={ts}&wait=500'.format(server=server,
+        'https://{server}?act={act}&key={key}&ts={ts}&wait=500'.format(server=server,
                                                                       act='a_check',
                                                                       key=key,
                                                                       ts=ts)).json()
+    print(long_poll)
     update = long_poll['updates']
 
     ts = long_poll['ts']
