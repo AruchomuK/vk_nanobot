@@ -29,7 +29,10 @@ while True:
                                                                       act='a_check',
                                                                       key=key,
                                                                       ts=ts)).json()
-    print(long_poll)
     update = long_poll['updates']
-
+    print(update)
     ts = long_poll['ts']
+
+    if (update[0][0]==4):
+        print(update[0][6])
+        write_msg(USER_ID, update[0][6])
