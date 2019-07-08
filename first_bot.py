@@ -46,11 +46,11 @@ while True:
     update = long_poll['updates']
     print(update)
     ts = long_poll['ts']
-
+    domain = ['rhymes', 'ovsyanochan', 'rapnewrap']
 
     if (update[0][0] == 4):
         response = vk_user.method('wall.get',
-                                  {'domain': 'proglib',
+                                  {'domain': random.choice(domain),
                                    'offset': 1,
                                    'count': 1,
                                    'filter': 'owner'})
