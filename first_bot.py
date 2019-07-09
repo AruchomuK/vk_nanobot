@@ -1,20 +1,18 @@
 import requests
-import response as response
 import vk_api
 import random
 from config import *
 
 vkBot = vk_api.VkApi(token=ACCESS_TOKEN) #'48c97284e8badaca0fea456a422089106f29affcf431c73093bd0c32bbbc875a4109e56bcf5fe609a3811'
-vk_user = vk_api.VkApi(token=USER_TOKEN)
+vk_user = vk_api.VkApi(token=USER_TOKEN) #'e7b346f1aeb552ba964aa70f25ecebe39bb31fb0d102264c68455d077d389453ddc56b4f8bc1446d7a20e'
 USER_ID = 446927861
 
 
 
-def write_msg_post(user_id, text, post):
+def write_msg_post(user_id, post):
     vkBot.method('messages.send',
                  {'user_id': USER_ID,
                   'random_id': random.randint(0, 2147483648),
-                  'message': text,
                   'attachment': post})
 
 def write_msg(user_id, text):
@@ -57,5 +55,4 @@ while True:
         post = 'wall{from_id}_{id}'.format(from_id=response['items'][0]['from_id'],
                                            id=response['items'][0]['id'])
 
-        print(response)
-        write_msg_post(USER_ID, response, post)
+        write_msg_post(USER_ID, post)
