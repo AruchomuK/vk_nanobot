@@ -11,18 +11,15 @@ USER_ID = 446927861
 
 def write_msg_post(user_id, post):
     vkBot.method('messages.send',
-                 {'user_id': USER_ID,
+                 {'user_id': user_id,
                   'random_id': random.randint(0, 2147483648),
                   'attachment': post})
 
 def write_msg(user_id, text):
     vkBot.method('messages.send',
-                 {'user_id': USER_ID,
+                 {'user_id': user_id,
                   'random_id': random.randint(0, 2147483648),
                   'message': text})
-
-
-write_msg(USER_ID, 'Hey')
 
 lp_server = vkBot.method('messages.getLongPollServer',
                          {'lp_version': 3,
@@ -44,12 +41,43 @@ while True:
     update = long_poll['updates']
     print(update)
     ts = long_poll['ts']
-    domain = ['rhymes', 'ovsyanochan', 'rapnewrap']
+    domain_1 = ['reallydank', 'dank_memes_ayylmao', 'daily.shit', 'reddit', 'ru9gag']
+    domain_2 = ['sciencemems', 'sciencemem', 'sciencememein', 'intellectualmems','math_and_physics', 'typ_math', 'typical_olimp']
+    domain_3 = ['4ch', 'canikms', 'dobriememes', 'mudakoff']
+    if update[0][0] == 4:
+        USER_ID= update[0][3]
+    if update[0][0] == 4 and ((update[0][-1].lower() == 'старт') or (update[0][-1].lower() == 'Старт')):
+        write_msg(USER_ID,
+                  'Привет! Я - мем-бот! Здесь ты найдешь только свежайшие мемасы для всех: для умных и глупых, для шарящих и нешарящих, для олдов и новеньких. Выбирай категорию: \n 1) Зарубежные мемы\n 2) Мемы для умненьких\n 3) Мемы для особенных (постирония, открывать на свой страх и риск)\n')
 
-    if (update[0][0] == 4):
+    if ((update[0][0] == 4) and (update[0][6] == '1')): #first group
         response = vk_user.method('wall.get',
-                                  {'domain': random.choice(domain),
-                                   'offset': 1,
+                                  {'domain': random.choice(domain_1),
+                                   'offset': random.randint(1, 10),
+                                   'count': 1,
+                                   'filter': 'owner'})
+        post = 'wall{from_id}_{id}'.format(from_id=response['items'][0]['from_id'],
+                                           id=response['items'][0]['id'])
+
+        write_msg_post(USER_ID, post)
+
+
+    if ((update[0][0] == 4) and (update[0][6] == '2')): #second group
+        response = vk_user.method('wall.get',
+                                  {'domain': random.choice(domain_2),
+                                   'offset': random.randint(1, 10),
+                                   'count': 1,
+                                   'filter': 'owner'})
+        post = 'wall{from_id}_{id}'.format(from_id=response['items'][0]['from_id'],
+                                           id=response['items'][0]['id'])
+
+        write_msg_post(USER_ID, post)
+
+
+    if ((update[0][0] == 4) and (update[0][6] == '3')):  # third group
+        response = vk_user.method('wall.get',
+                                  {'domain': random.choice(domain_3),
+                                   'offset': random.randint(1, 10),
                                    'count': 1,
                                    'filter': 'owner'})
         post = 'wall{from_id}_{id}'.format(from_id=response['items'][0]['from_id'],
